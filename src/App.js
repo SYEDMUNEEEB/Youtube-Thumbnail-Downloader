@@ -4,7 +4,7 @@ import "./App.css"
 const App = () => {
   return (
     <div>
-   <h2>Youtube vedio ThumbnailDownloader</h2>
+<h2>Youtube ThumbnailDownloader</h2>
       <ThumbnailDownloader />
     </div>
   );

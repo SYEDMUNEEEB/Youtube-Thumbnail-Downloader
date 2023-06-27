@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './App.css'; // Import the CSS file for styling
-
+import "./App.css"
 const ThumbnailDownloader = () => {
   const [thumbnailUrl, setThumbnailUrl] = useState('');
   const [videoLink, setVideoLink] = useState('');
@@ -16,23 +15,25 @@ const ThumbnailDownloader = () => {
         `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=enter your api`
       );
 
-      // Check if the response contains items
-      if (response.data.items && response.data.items.length > 0) {
-        // Retrieve the thumbnail URL from the API response
-        const thumbnail = response.data.items[0].snippet.thumbnails.default.url;
-        setThumbnailUrl(thumbnail);
-      } else {
-        console.log('Invalid API response');
-      }
+      // Retrieve the thumbnail URL from the API response
+      const thumbnail = response.data.items[0].snippet.thumbnails.default.url;
+      setThumbnailUrl(thumbnail);
     } catch (error) {
       console.log('Error fetching video details', error);
     }
   };
 
   const extractVideoId = (videoLink) => {
-    // ... Same as before ...
-  };
+    const regex = /(?:[?v=]|\/embed\/|\/\d\/|\/v\/|https:\/\/youtu.be\/|\/embed\/|\/e\/|\/watch\?v=|&v=|youtu.be\/|\/v\/|\/e\/|\/y\/|\/youtube.com\/v\/|\/embed\/|\/v=|\/e=|\/youtube.com\/embed\/|\/y\/|\/g\/|\/watch\?v%3D|&amp;v=|\/embed\/|\/e\/|\/watch\?feature=player_embedded&amp;v=|\/embed\/|\/watch\?v=|&amp;v=|youtu.be\/|\/v\/|\/e\/|\/youtube.com\/v\/|\/embed\/|\/v=|\/e=|\/youtube.com\/embed\/|\/y\/|\/g\/|\/watch\?v%3D|&amp;v=|youtube.com\/watch\?v=)([^#\&\?\/<>"' ]{11})/gi;
+    const match = regex.exec(videoLink);
 
+    if (match && match[1]) {
+      return match[1];
+    } else {
+      console.log('Invalid YouTube URL');
+      return '';
+    }
+  };
   const downloadThumbnail = () => {
     const link = document.createElement('a');
     link.href = thumbnailUrl;
@@ -40,25 +41,23 @@ const ThumbnailDownloader = () => {
     link.click();
   };
 
+
   return (
-    <div className="thumbnail-container">
-      <h2>YouTube Thumbnail Downloader</h2>
+    <div className='thumbnail-container'>
       <input
         type="text"
-        className="video-link-input"
         placeholder="Enter YouTube video link"
         value={videoLink}
         onChange={(e) => setVideoLink(e.target.value)}
+        className='video-link-input'
       />
-      <button className="generate-btn" onClick={generateThumbnail}>
-        Generate Thumbnail
-      </button>
+      <button onClick={generateThumbnail } 
+      className='generate-btn'>Generate Thumbnail</button>
+      {thumbnailUrl && <img src={thumbnailUrl} alt="Video Thumbnail" />}
       {thumbnailUrl && (
-        <div className="thumbnail-wrapper">
-          <img src={thumbnailUrl} alt="Video Thumbnail" className="thumbnail-img" />
-          <button className="download-btn" onClick={downloadThumbnail}>
-            Download
-          </button>
+        <div>
+          {/* <img src={thumbnailUrl} alt="Video Thumbnail" style={{ width: '250px', height: 'auto' }} /> */}
+          <button onClick={downloadThumbnail}>Download</button>
         </div>
       )}
     </div>
