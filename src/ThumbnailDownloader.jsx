@@ -13,7 +13,7 @@ const ThumbnailDownloader = () => {
 
       // Fetch video details using YouTube Data API
       const response = await axios.get(
-        `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=AIzaSyAcad2kbFfA3b9eCLy_EZDdnKpGHi4o1Kw`
+        `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=enter your api`
       );
 
       // Check if the response contains items
